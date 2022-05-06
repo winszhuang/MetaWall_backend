@@ -1,22 +1,25 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user');
+const { successHandler, errorHandler } = require('../utils/responseHandler');
 
-// http://127.0.0.1:3000/users
-// http://127.0.0.1:3000/users/login
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  // res.send('respond with a resource');
-  res.status(200).json({
-    "name":"洧杰"
-  })
+router.get('/', async function (req, res, next) {
+  const users = await User.find();
+
+  successHandler(res, 200, users);
 });
-// /users/login 1
-//  /login 2
-router.get('/login', function(req, res, next) {
-  // res.send('respond with a resource');
-  res.status(200).json({
-    "name":"login"
-  })
+
+router.post('/', async function (req, res, next) {
+  try {
+    await User.create({
+      ...req.body,
+      "createdAt": Date.now()
+    })
+
+    successHandler(res, 200, true);
+  } catch (error) {
+    errorHandler(res, 400, error);
+  }
 });
 
 module.exports = router;

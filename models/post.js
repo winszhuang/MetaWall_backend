@@ -12,19 +12,16 @@ const postSchema = new mongoose.Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
-      select: false
-    },
-    name: {
-      type: String,
-      required: [true, '貼文姓名未填寫']
+      default: Date.now
     },
     likes: {
-      type: Array,
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "user",
+      required: [true, 'need number'],
       default: []
     },
     author: {
-      type: mongoose.Schema.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: [true, '貼文姓名未填寫']
     }
