@@ -23,8 +23,13 @@ async function getManyPost(req, res, next) {
     filterBySort['likes'] = likesSort
   }
 
+  // 如果排序相關沒有任何query，就給預設由新到舊排序
+  const defaultFilterOrNot = Object.keys(filterBySort).length === 0
+    ? { createdAt: '-1' }
+    : filterBySort;
+
   const posts = await Post.find(filterByQuery)
-    .sort(filterBySort)
+    .sort(defaultFilterOrNot)
     .populate({
       path: 'author',
       select: 'name avator createdAt'
