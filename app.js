@@ -9,6 +9,7 @@ require('dotenv').config({ path: './config.env' });
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
+const imagesRouter = require('./routes/images');
 
 mongoose.connect(`mongodb+srv://wins:${process.env.MONGO_PASSWORD}@livewall.q6ypt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)
   .then(() => {
@@ -34,5 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
+app.use('/images', imagesRouter);
 
 module.exports = app;
