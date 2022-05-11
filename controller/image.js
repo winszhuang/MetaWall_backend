@@ -1,15 +1,19 @@
 const { successHandler, errorHandler } = require('../utils/responseHandler')
 const { uploadFile, getFileStream } = require('../store/s3')
+const { Readable } = require('stream')
 
-function getImage(req, res) {
+async function getImage(req, res) {
   if (!req.params.key) {
     errorHandler(res, 404, new Error('no image key'))
   }
 
   const key = req.params.key
-  const readStream = getFileStream(key)
-
-  readStream.pipe(res)
+  try {
+    const buffer = (await getFileStream(key)).Body
+    Readable.from(buffer).pipe(res)
+  } catch (error) {
+    errorHandler(res, 404, error)
+  }
 }
 
 async function postImage(req, res) {
