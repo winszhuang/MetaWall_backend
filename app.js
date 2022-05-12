@@ -4,6 +4,8 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const swaggerConfig = require('./swagger.config');
+const expressJSDocSwagger = require('express-jsdoc-swagger');
 require('dotenv').config({ path: './config.env' });
 
 const indexRouter = require('./routes/index');
@@ -20,6 +22,8 @@ mongoose.connect(`mongodb+srv://wins:${process.env.MONGO_PASSWORD}@livewall.q6yp
   });
 
 const app = express();
+
+expressJSDocSwagger(app)(swaggerConfig)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
