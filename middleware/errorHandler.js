@@ -1,11 +1,13 @@
+// 彩雷注意!! 該function最後一個參數不加上next，error就不會到這處理...
 // eslint-disable-next-line consistent-return
-function errorHandler(err, req, res) {
+// eslint-disable-next-line no-unused-vars
+function errorHandler(err, req, res, next) {
   err.statusCode = err.statusCode || 500;
 
   if (process.env.NODE_ENV === 'dev') return errorHandleInDev(err, res);
   if (process.env.NODE_ENV === 'pro') return errorHandleInPro(err, res);
 
-  errorHandleInPro(err, res);
+  return errorHandleInPro(err, res);
 }
 
 function errorHandleInDev(error, res) {
