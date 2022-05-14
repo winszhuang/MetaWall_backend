@@ -18,6 +18,10 @@ async function postImage(req, res, next) {
   const { file } = req;
   if (!file) return appError('404', 'file required!!', next);
 
+  if (file.fieldname !== 'image') {
+    return appError('404', 'field key of form should be called "image"!!', next);
+  }
+
   if (!file.mimetype.startsWith('image')) {
     return appError('404', 'file should be image type!!', next);
   }
