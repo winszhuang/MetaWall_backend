@@ -1,32 +1,24 @@
-const { successHandler, errorHandler } = require('../utils/responseHandler')
-const { uploadFile, getFileStream } = require('../store/s3')
+const successHandler = require('../utils/successHandler')
+const { uploadFile, getFileAsync } = require('../store/s3')
+const appError = require('../utils/appError')
 const { Readable } = require('stream')
 
-async function getImage(req, res) {
-  if (!req.params.key) {
-    errorHandler(res, 404, new Error('no image key'))
-  }
+async function getImage(req, res, next) {
+  if (!req.params.key) return appError('404', 'fetch image requires a key!!', next)
 
   const key = req.params.key
-  try {
-    const buffer = (await getFileStream(key)).Body
-    Readable.from(buffer).pipe(res)
-  } catch (error) {
-    errorHandler(res, 404, error)
-  }
+  const buffer = (await getFileAsync(key)).Body
+
+  Readable.from(buffer).pipe(res)
 }
 
 async function postImage(req, res) {
-  try {
-    const file = req.file
-    const result = await uploadFile(file)
+  const file = req.file
+  const result = await uploadFile(file)
 
-    successHandler(res, 200, {
-      imageUrl: `/images/${result.Key}`
-    })
-  } catch (error) {
-    errorHandler(res, 404, error)
-  }
+  successHandler(res, 200, {
+    imageUrl: `/images/${result.Key}`
+  })
 }
 
 module.exports = {

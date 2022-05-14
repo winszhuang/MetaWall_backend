@@ -25,7 +25,7 @@ function uploadFile(file) {
   return s3.upload(params).promise()
 }
 
-function getFileStream(fileKey) {
+function getFileAsync(fileKey) {
   const downloadParams = {
     Key: fileKey,
     Bucket: bucketName
@@ -36,5 +36,5 @@ function getFileStream(fileKey) {
 
 module.exports = {
   uploadFile,
-  getFileStream
+  getFileAsync
 }

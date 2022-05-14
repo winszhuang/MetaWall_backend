@@ -1,7 +1,8 @@
 const Post = require("../models/post")
-const { successHandler, errorHandler } = require('../utils/responseHandler')
+const successHandler = require('../utils/successHandler')
 const currentUserId = require('../common/tempUserId')
 const checkValueCanSort = require('../utils/checkSort')
+const appError = require('../utils/appError')
 
 async function getManyPost(req, res, next) {
   // 除了q傳遞搜尋字串之外，其他值皆屬排序，皆只能傳遞1或者-1來遞升或遞減
@@ -39,20 +40,15 @@ async function getManyPost(req, res, next) {
 }
 
 async function addPost(req, res, next) {
-  try {
-    const { content, image } = req.body;
-    if (!content) throw new Error('content required!!')
-  
-    await Post.create({
-      content,
-      image,
-      author: currentUserId
-    })
+  const { content, image } = req.body;
 
-    successHandler(res, 200, true)
-  } catch (error) {
-    errorHandler(res, 404, error)
-  }
+  if (!content) return appError('404', 'require content', next)
+
+  await Post.create({
+    content,
+    image,
+    author: currentUserId
+  })
 }
 
 module.exports = {

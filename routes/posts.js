@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('../utils/routerWrapper')()
 
 const {
   getManyPost,
@@ -7,6 +6,6 @@ const {
 } = require('../controller/post');
 
 router.get('/', getManyPost);
-router.post('/',addPost);
+router.post('/', addPost);
 
-module.exports = router;
+module.exports = router.instance;

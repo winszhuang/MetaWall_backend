@@ -4,6 +4,7 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const errorHandler = require('./middleware/errorHandler')
 require('dotenv').config({ path: './config.env' });
 
 const indexRouter = require('./routes/index');
@@ -36,11 +37,14 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/images', imagesRouter);
-app.use((req, res) => {
+app.use((req, res, next) => {
   res.status(404).json({
-    status: "fail",
+    status: 'error',
     message: '無此路由'
-  });
+  })
 });
+
+// custom middleware
+app.use(errorHandler);
 
 module.exports = app;
