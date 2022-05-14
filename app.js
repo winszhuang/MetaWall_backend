@@ -1,4 +1,5 @@
 require('./tools/processMonitor');
+require('dotenv').config({ path: './config.env' });
 
 const express = require('express');
 const path = require('path');
@@ -6,8 +7,8 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-const errorHandler = require('./middleware/errorHandler')
-require('dotenv').config({ path: './config.env' });
+const errorHandler = require('./middleware/errorHandler');
+const appError = require('./utils/appError');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -40,10 +41,7 @@ app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/images', imagesRouter);
 app.use((req, res, next) => {
-  res.status(404).json({
-    status: 'error',
-    message: '無此路由'
-  })
+  appError(404, 'route does not exist', next);
 });
 
 // custom middleware
