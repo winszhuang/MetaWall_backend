@@ -3,7 +3,7 @@ require('dotenv').config({ path: './config.env' });
 
 const express = require('express');
 const path = require('path');
-const cors = require('cors')
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');

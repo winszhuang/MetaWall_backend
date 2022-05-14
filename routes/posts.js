@@ -1,8 +1,8 @@
-const router = require('../utils/routerWrapper')()
+const router = require('../utils/routerWrapper')();
 
 const {
   getManyPost,
-  addPost
+  addPost,
 } = require('../controller/post');
 
 router.get('/', getManyPost);

@@ -1,32 +1,32 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema(
   {
     content: {
       type: String,
-      required: [true, 'Content 未填寫']
+      required: [true, 'Content 未填寫'],
     },
     image: {
       type: String,
-      default: ""
+      default: '',
     },
     createdAt: {
       type: Date,
-      default: Date.now
+      default: Date.now,
     },
     likes: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "user",
+      ref: 'user',
       required: [true, 'need number'],
-      default: []
+      default: [],
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-      required: [true, '貼文姓名未填寫']
-    }
+      ref: 'user',
+      required: [true, '貼文姓名未填寫'],
+    },
 
-  }
+  },
 );
 const Post = mongoose.model('Post', postSchema);
 
