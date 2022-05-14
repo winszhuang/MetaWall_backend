@@ -18,6 +18,15 @@ async function postImage(req, res, next) {
   const { file } = req;
   if (!file) return appError('404', 'file required!!', next);
 
+  if (!file.mimetype.startsWith('image')) {
+    return appError('404', 'file should be image type!!', next);
+  }
+  // 檔案呈現是位元單位，
+  const mb = 1024 * 1024;
+  if (file.size > mb) {
+    return appError('404', 'file must be less than 1MB', next);
+  }
+
   const result = await uploadFile(file);
 
   return successHandler(res, 200, {
