@@ -36,5 +36,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/images', imagesRouter);
+app.use((req, res) => {
+  res.status(404).json({
+    status: "fail",
+    message: '無此路由'
+  });
+});
 
 module.exports = app;
