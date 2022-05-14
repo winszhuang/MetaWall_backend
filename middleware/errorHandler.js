@@ -19,6 +19,11 @@ function errorHandleInDev(error, res) {
 }
 
 function errorHandleInPro(error, res) {
+  if (error.name === 'SyntaxError') {
+    error.isOperational = true;
+    error.message = '語法錯誤';
+  }
+
   if (error.name === 'ValidationError') {
     // 處理mongoose schema驗證錯誤的資訊
     error.isOperational = true;
