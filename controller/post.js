@@ -3,6 +3,7 @@ const successHandler = require('../utils/successHandler');
 const currentUserId = require('../common/tempUserId');
 const checkValueCanSort = require('../utils/checkSort');
 const appError = require('../utils/appError');
+const { getFileInfo } = require('../store/s3');
 
 async function getManyPost(req, res) {
   // 除了q傳遞搜尋字串之外，其他值皆屬排序，皆只能傳遞1或者-1來遞升或遞減
@@ -40,15 +41,26 @@ async function getManyPost(req, res) {
 }
 
 async function addPost(req, res, next) {
+  // image是傳id值
   const { content, image } = req.body;
 
   if (!content) return appError('404', 'require content', next);
 
-  return Post.create({
+  if (!image) {
+    const result = Post.create({
+      content,
+      author: currentUserId,
+    });
+    return successHandler(res, 200, result);
+  }
+
+  const isImageInS3 = await getFileInfo(image);
+  const result = Post.create({
     content,
-    image,
+    image: isImageInS3 ? image : '',
     author: currentUserId,
   });
+  return successHandler(res, 200, result);
 }
 
 module.exports = {
