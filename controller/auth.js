@@ -43,7 +43,6 @@ async function signIn(req, res, next) {
   if (!isPasswordCorrect) return appError(404, '密碼錯誤 !', next);
 
   currentUser.password = '';
-
   const token = generateJWT(currentUser);
 
   return successHandler(res, 200, {
