@@ -24,10 +24,17 @@ function errorHandleInPro(error, res) {
     error.message = '語法錯誤';
   }
 
+  // 處理mongoose schema驗證錯誤的資訊
   if (error.name === 'ValidationError') {
-    // 處理mongoose schema驗證錯誤的資訊
     error.isOperational = true;
     error.message = '欄位未填寫正確，請重新輸入!!';
+  }
+
+  // 處理mongoose在資料庫找不到該id
+  if (error.message?.includes('Cast to ObjectId failed for value')) {
+    error.isOperational = true;
+    error.name = 'non-existing id';
+    error.message = '無此id';
   }
 
   // aws s3存取有問題
