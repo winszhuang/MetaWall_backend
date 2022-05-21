@@ -1,0 +1,305 @@
+{
+	"info": {
+		"_postman_id": "7c646003-6d49-492e-832b-c8aebaaf455a",
+		"name": "express_week5",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13281231"
+	},
+	"item": [
+		{
+			"name": "user使用者",
+			"item": [
+				{
+					"name": "getAllUser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addSingleUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"123\",\r\n    \"email\": \"ijilj\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post貼文",
+			"item": [
+				{
+					"name": "getAllPost",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts?likesSort=-1&dateSort=1",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts"
+							],
+							"query": [
+								{
+									"key": "likesSort",
+									"value": "-1",
+									"description": "按讚數排序，可輸入1或者-1"
+								},
+								{
+									"key": "q",
+									"value": "多多",
+									"description": "搜尋字串",
+									"disabled": true
+								},
+								{
+									"key": "dateSort",
+									"value": "1",
+									"description": "創建日期排序，可輸入1或者-1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addSinglePost",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"終於把小組部分處理差不多惹 ~\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editPost",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"測試編輯\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/6282058661eed162273d0912",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"6282058661eed162273d0912"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePost",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/6285fca06d63cba7727ba27e",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"6285fca06d63cba7727ba27e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAllPost",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addManyPost",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"繼續測試哦~\",\r\n    \"image\": \"b8be2fb27e934bd5cc7a28da2ecf3851\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/all",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Image圖片處理",
+			"item": [
+				{
+					"name": "postImage (use aws s3)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Wins/Pictures/Screenshots/螢幕擷取畫面 (15).png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/images",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getImageById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/images/b8be2fb27e934bd5cc7a28da2ecf3851",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"images",
+								"b8be2fb27e934bd5cc7a28da2ecf3851"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
