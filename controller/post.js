@@ -54,16 +54,56 @@ async function addPost(req, res, next) {
     return successHandler(res, 200, result);
   }
 
-  const isImageInS3 = await getFileInfo(image);
+  // 如果沒有該imageId，就直接在這裡出錯，並被handleErrorAsync接住
+  // 不需要再此處判斷是否有值
+  await getFileInfo(image);
+
   const result = Post.create({
     content,
-    image: isImageInS3 ? image : '',
+    image,
     author: currentUserId,
   });
+  return successHandler(res, 200, result);
+}
+
+async function editPost(req, res, next) {
+  const { content, image } = req.body;
+
+  if (!content) return appError(404, 'content required', next);
+  if (!image) {
+    const updatePost = await Post.findByIdAndUpdate(req.params.id, {
+      content,
+    }, { new: true });
+    return successHandler(res, 200, updatePost);
+  }
+
+  // 如果沒有該imageId，就直接在這裡出錯，並被handleErrorAsync接住
+  // 不需要再此處判斷是否有值
+  await getFileInfo(image);
+
+  const updatePost = await Post.findByIdAndUpdate(req.params.id, {
+    content,
+    image,
+  }, { new: true });
+
+  return successHandler(res, 200, updatePost);
+}
+
+async function deletePost(req, res) {
+  const oldPost = await Post.findByIdAndDelete(req.params.id);
+  return successHandler(res, 200, oldPost);
+}
+
+// 刪除所有貼文(測試用)
+async function deleteManyPost(req, res) {
+  const result = await Post.deleteMany();
   return successHandler(res, 200, result);
 }
 
 module.exports = {
   getManyPost,
   addPost,
+  editPost,
+  deletePost,
+  deleteManyPost,
 };
