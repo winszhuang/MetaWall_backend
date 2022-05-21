@@ -1,6 +1,5 @@
 const Post = require('../models/post');
 const successHandler = require('../utils/successHandler');
-const currentUserId = require('../common/tempUserId');
 const checkValueCanSort = require('../utils/checkSort');
 const appError = require('../utils/appError');
 const { getFileInfo } = require('../store/s3');
@@ -49,7 +48,7 @@ async function addPost(req, res, next) {
   if (!image) {
     const result = Post.create({
       content,
-      author: currentUserId,
+      author: req.user.id,
     });
     return successHandler(res, 200, result);
   }
@@ -61,7 +60,7 @@ async function addPost(req, res, next) {
   const result = Post.create({
     content,
     image,
-    author: currentUserId,
+    author: req.user.id,
   });
   return successHandler(res, 200, result);
 }
