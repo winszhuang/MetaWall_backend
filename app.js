@@ -14,6 +14,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
 const imagesRouter = require('./routes/images');
+const authRouter = require('./routes/auth');
 
 mongoose.connect(`mongodb+srv://wins:${process.env.MONGO_PASSWORD}@livewall.q6ypt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)
   .then(() => {
@@ -40,6 +41,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/images', imagesRouter);
+app.use('/auth', authRouter);
 app.use((req, res, next) => {
   appError(404, 'route does not exist', next);
 });

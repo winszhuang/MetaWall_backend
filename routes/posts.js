@@ -1,4 +1,5 @@
 const router = require('../utils/routerWrapper')();
+const isAuth = require('../middleware/isAuth');
 
 const {
   getManyPost,
@@ -8,10 +9,10 @@ const {
   deleteManyPost,
 } = require('../controller/post');
 
-router.get('/', getManyPost);
-router.post('/', addPost);
-router.patch('/:id', editPost);
-router.delete('/:id', deletePost);
-router.delete('/', deleteManyPost);
+router.get('/', isAuth, getManyPost);
+router.post('/', isAuth, addPost);
+router.patch('/:id', isAuth, editPost);
+router.delete('/:id', isAuth, deletePost);
+router.delete('/', isAuth, deleteManyPost);
 
 module.exports = router.instance;

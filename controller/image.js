@@ -2,6 +2,15 @@ const { Readable } = require('stream');
 const { uploadFile, getFileAsync } = require('../store/s3');
 const successHandler = require('../utils/successHandler');
 const appError = require('../utils/appError');
+const RequestBlocker = require('../services/blocker/RequestBlocker');
+const {
+  isFileExist,
+  isFieldNameImage,
+  isImageType,
+  isFileSizeLessThan1MB,
+  isImageWidthGreaterThan300,
+  isImage1And1Ratio,
+} = require('../services/blocker/rule/image-rule');
 
 async function getImage(req, res, next) {
   if (!req.params.key) return appError('404', 'fetch image requires a key!!', next);
@@ -15,24 +24,22 @@ async function getImage(req, res, next) {
 }
 
 async function postImage(req, res, next) {
-  const { file } = req;
-  if (!file) return appError('404', 'file required!!', next);
+  const errorData = new RequestBlocker(req)
+    .setBlocker(
+      isFileExist,
+      isFieldNameImage,
+      isImageType,
+      isFileSizeLessThan1MB,
+      isImageWidthGreaterThan300,
+      isImage1And1Ratio,
+    ).getErrorData();
 
-  if (file.fieldname !== 'image') {
-    return appError('404', 'field key of form should be called "image"!!', next);
+  if (errorData) {
+    const { statusCode, errorMessage } = errorData;
+    return appError(statusCode, errorMessage, next);
   }
 
-  if (!file.mimetype.startsWith('image')) {
-    return appError('404', 'file should be image type!!', next);
-  }
-  // 檔案呈現是位元單位，
-  const mb = 1024 * 1024;
-  if (file.size > mb) {
-    return appError('404', 'file must be less than 1MB', next);
-  }
-
-  const result = await uploadFile(file);
-
+  const result = await uploadFile(req.file);
   return successHandler(res, 200, {
     imageUrl: `/images/${result.Key}`,
   });
