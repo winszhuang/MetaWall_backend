@@ -46,7 +46,7 @@ async function addPost(req, res, next) {
   if (!content) return appError('404', 'require content', next);
 
   if (!image) {
-    const result = Post.create({
+    const result = await Post.create({
       content,
       author: req.user.id,
     });
@@ -57,7 +57,7 @@ async function addPost(req, res, next) {
   // 不需要再此處判斷是否有值
   await getFileInfo(image);
 
-  const result = Post.create({
+  const result = await Post.create({
     content,
     image,
     author: req.user.id,
@@ -69,11 +69,15 @@ async function editPost(req, res, next) {
   const { content, image } = req.body;
 
   if (!content) return appError(404, 'content required', next);
+
   if (!image) {
     const updatePost = await Post.findByIdAndUpdate(req.params.id, {
       content,
     }, { new: true });
-    return successHandler(res, 200, updatePost);
+
+    return updatePost
+      ? successHandler(res, 200, updatePost)
+      : appError(404, 'invalid id', next);
   }
 
   // 如果沒有該imageId，就直接在這裡出錯，並被handleErrorAsync接住
@@ -85,12 +89,17 @@ async function editPost(req, res, next) {
     image,
   }, { new: true });
 
-  return successHandler(res, 200, updatePost);
+  return updatePost
+    ? successHandler(res, 200, updatePost)
+    : appError(404, 'invalid id', next);
 }
 
-async function deletePost(req, res) {
+async function deletePost(req, res, next) {
   const oldPost = await Post.findByIdAndDelete(req.params.id);
-  return successHandler(res, 200, oldPost);
+
+  return oldPost
+    ? successHandler(res, 200, oldPost)
+    : appError(404, 'invalid id', next);
 }
 
 // 刪除所有貼文(測試用)
