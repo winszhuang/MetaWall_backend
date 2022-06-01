@@ -24,8 +24,14 @@ const postSchema = new mongoose.Schema({
     ref: 'user',
     required: [true, '貼文姓名未填寫'],
   },
-
 }, { versionKey: false });
+
+postSchema.virtual('comments', {
+  ref: 'Comment',
+  foreignField: 'post',
+  localField: '_id',
+});
+
 const Post = mongoose.model('Post', postSchema);
 
 module.exports = Post;
