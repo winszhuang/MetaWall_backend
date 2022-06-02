@@ -13,8 +13,8 @@ async function signUp(req, res, next) {
 
   if (!validator.isEmail(email)) return appError(400, 'email格式錯誤', next);
 
-  if (!password.match(/^(?=.*[\u4E00-\u9FA5\s])(?=.*[a-zA-Z])([a-zA-Z|\u4E00-\u9FA5\s]+){8,18}$/)) {
-    return appError(400, '密碼至少需 8 碼以上，並中英混合', next);
+  if (!password.match(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/)) {
+    return appError(400, '密碼必須英數混合', next);
   }
 
   const isUserExist = await User.findOne({ email });
