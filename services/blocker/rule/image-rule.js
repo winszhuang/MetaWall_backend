@@ -5,7 +5,7 @@ function isFileExist(req) {
     ? true
     : {
       errorMessage: 'file required!!',
-      statusCode: 404,
+      statusCode: 400,
     };
 }
 
@@ -14,7 +14,7 @@ function isFieldNameImage(req) {
     ? true
     : {
       errorMessage: 'field key of form should be called "image"!!',
-      statusCode: 404,
+      statusCode: 400,
     };
 }
 
@@ -23,7 +23,7 @@ function isImageType(req) {
     ? true
     : {
       errorMessage: 'file should be image type!!',
-      statusCode: 404,
+      statusCode: 400,
     };
 }
 
@@ -33,7 +33,7 @@ function isFileSizeLessThan1MB(req) {
     ? true
     : {
       errorMessage: 'file must be less than 1MB',
-      statusCode: 404,
+      statusCode: 400,
     };
 }
 
@@ -47,7 +47,7 @@ function isImageWidthGreaterThan300(req) {
     ? true
     : {
       errorMessage: 'image width must be greater than 300',
-      statusCode: 404,
+      statusCode: 400,
     };
 }
 
@@ -62,7 +62,7 @@ function isImage1And1Ratio(req) {
   if (!isRatioStringIncludeColon || !isRatioArrayLengthEqualTo2) {
     return {
       errorMessage: '錯誤的長寬比格式',
-      statusCode: 404,
+      statusCode: 400,
     };
   }
 
@@ -75,14 +75,14 @@ function isImage1And1Ratio(req) {
   ) {
     return {
       errorMessage: '錯誤的長寬比格式',
-      statusCode: 404,
+      statusCode: 400,
     };
   }
 
   if (width / height !== Number(radioOfWidth) / Number(radioOfHeight)) {
     return {
       errorMessage: '長寬比不匹配',
-      statusCode: 404,
+      statusCode: 400,
     };
   }
 

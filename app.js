@@ -43,7 +43,7 @@ app.use('/posts', postsRouter);
 app.use('/images', imagesRouter);
 app.use('/auth', authRouter);
 app.use((req, res, next) => {
-  appError(404, 'route does not exist', next);
+  appError(400, 'route does not exist', next);
 });
 
 // custom middleware

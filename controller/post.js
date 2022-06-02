@@ -43,7 +43,7 @@ async function addPost(req, res, next) {
   // image是傳id值
   const { content, image } = req.body;
 
-  if (!content) return appError('404', 'require content', next);
+  if (!content) return appError('400', 'require content', next);
 
   if (!image) {
     const result = await Post.create({
@@ -68,7 +68,7 @@ async function addPost(req, res, next) {
 async function editPost(req, res, next) {
   const { content, image } = req.body;
 
-  if (!content) return appError(404, 'content required', next);
+  if (!content) return appError(400, 'content required', next);
 
   if (!image) {
     const updatePost = await Post.findByIdAndUpdate(req.params.id, {
@@ -77,7 +77,7 @@ async function editPost(req, res, next) {
 
     return updatePost
       ? successHandler(res, 200, updatePost)
-      : appError(404, 'invalid id', next);
+      : appError(400, 'invalid id', next);
   }
 
   // 如果沒有該imageId，就直接在這裡出錯，並被handleErrorAsync接住
@@ -91,7 +91,7 @@ async function editPost(req, res, next) {
 
   return updatePost
     ? successHandler(res, 200, updatePost)
-    : appError(404, 'invalid id', next);
+    : appError(400, 'invalid id', next);
 }
 
 async function deletePost(req, res, next) {
@@ -99,7 +99,7 @@ async function deletePost(req, res, next) {
 
   return oldPost
     ? successHandler(res, 200, oldPost)
-    : appError(404, 'invalid id', next);
+    : appError(400, 'invalid id', next);
 }
 
 // 刪除所有貼文(測試用)
