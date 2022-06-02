@@ -34,11 +34,6 @@ const userSchema = new mongoose.Schema({
     ref: 'user',
     default: [],
   },
-  likes: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'post',
-    default: [],
-  },
 }, { versionKey: false });
 
 const User = mongoose.model('user', userSchema);
