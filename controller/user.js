@@ -3,6 +3,7 @@ const validator = require('validator');
 const User = require('../models/user');
 const appError = require('../utils/appError');
 const successHandler = require('../utils/successHandler');
+const GenderEnum = require('../constants/enum/genderEnum');
 const { getFileInfo } = require('../store/s3');
 
 async function getManyUser(req, res) {
@@ -41,7 +42,7 @@ async function updateProfile(req, res, next) {
 
   if (name && !validator.isLength(name, { min: 2 })) return appError(400, '暱稱需大於2字元', next);
 
-  if (gender && gender.toString() !== '1' && gender.toString() !== '0') {
+  if (gender && gender.toString() !== GenderEnum.Male && gender.toString() !== GenderEnum.Female) {
     return appError(400, '性別欄位非正確值', next);
   }
 
