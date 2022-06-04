@@ -27,7 +27,7 @@ async function getManyPost(req, res) {
 
   const posts = await Post.find(filterByQuery)
     .populate({
-      path: 'author',
+      path: 'user',
       select: 'name avatar',
     })
     .populate({
@@ -58,7 +58,7 @@ async function addPost(req, res, next) {
   if (!image) {
     const result = await Post.create({
       content,
-      author: req.user._id,
+      user: req.user._id,
     });
 
     return successHandler(res, 200, result);
@@ -71,7 +71,7 @@ async function addPost(req, res, next) {
   const result = await Post.create({
     content,
     image,
-    author: req.user._id,
+    user: req.user._id,
   });
   return successHandler(res, 200, result);
 }

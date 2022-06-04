@@ -19,19 +19,24 @@ const postSchema = new mongoose.Schema({
     required: [true, 'need number'],
     default: [],
   },
-  author: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: [true, '貼文姓名未填寫'],
   },
-}, { versionKey: false });
+}, {
+  versionKey: false,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+  id: false,
+});
 
 postSchema.virtual('comments', {
-  ref: 'Comment',
+  ref: 'comment',
   foreignField: 'post',
   localField: '_id',
 });
 
-const Post = mongoose.model('Post', postSchema);
+const Post = mongoose.model('post', postSchema);
 
 module.exports = Post;

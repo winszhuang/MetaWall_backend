@@ -34,6 +34,15 @@ const commentSchema = new mongoose.Schema({
   },
 }, { versionKey: false });
 
-const Comment = mongoose.model('Comment', commentSchema);
+const Comment = mongoose.model('comment', commentSchema);
+
+commentSchema.pre(/^find/, (next) => {
+  this.populate({
+    path: 'user',
+    select: 'name id createdAt',
+  });
+
+  next();
+});
 
 module.exports = Comment;
