@@ -10,8 +10,8 @@ router.patch('/:id', isAuth, PostController.editPost);
 router.delete('/:id', isAuth, PostController.deletePost);
 router.delete('/', isAuth, PostController.deleteManyPost);
 
-router.post('/:id/like', isAuth, LikeController.like);
-router.post('/:id/unlike', isAuth, LikeController.unLike);
-router.post('/:id/likes', isAuth, LikeController.getLikePost);
+router.patch('/:id/like', isAuth, LikeController.like);
+router.patch('/:id/unlike', isAuth, LikeController.unLike);
+router.get('/:id/likes', isAuth, LikeController.getLikePost);
 
 module.exports = router.instance;
