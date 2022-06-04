@@ -24,45 +24,45 @@ async function getLikePost(req, res) {
 }
 
 async function like(req, res, next) {
-  const { postId } = req.params;
+  const { id } = req.params;
 
-  const filter = {
-    _id: postId,
-    likes: { $nin: req.user._id },
-  };
-
-  const updatePost = await Post.findOneAndUpdate(filter, {
-    $push: {
-      likes: req.user._id,
+  const updatePost = await Post.findOneAndUpdate(
+    {
+      _id: id,
     },
-  }, { new: true });
+    {
+      $addToSet: {
+        likes: req.user._id,
+      },
+    },
+  );
 
   if (!updatePost) {
     return appError(404, '按讚錯誤', next);
   }
 
-  return successHandler(res, '成功更新讚數', updatePost);
+  return successHandler(res, '成功更新讚數', true);
 }
 
 async function unLike(req, res, next) {
-  const { postId } = req.params;
+  const { id } = req.params;
 
-  const filter = {
-    _id: postId,
-    likes: { $in: req.user._id },
-  };
-
-  const updatePost = await Post.findOneAndUpdate(filter, {
-    $pull: {
-      likes: req.user._id,
+  const updatePost = await Post.findOneAndUpdate(
+    {
+      _id: id,
     },
-  }, { new: true });
+    {
+      $pull: {
+        likes: req.user._id,
+      },
+    },
+  );
 
   if (!updatePost) {
     return appError(404, '取消讚錯誤', next);
   }
 
-  return successHandler(res, '成功移除按讚', updatePost);
+  return successHandler(res, '成功移除按讚', true);
 }
 
 module.exports = {
