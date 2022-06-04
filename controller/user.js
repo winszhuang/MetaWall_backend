@@ -25,7 +25,7 @@ async function updatePassword(req, res, next) {
 
   const newPassword = await bcrypt.hash(password, Number(process.env.PASSWORD_SALT));
 
-  const result = await User.findByIdAndUpdate(req.user.id, {
+  const result = await User.findByIdAndUpdate(req.user._id, {
     password: newPassword,
   });
 
@@ -33,12 +33,12 @@ async function updatePassword(req, res, next) {
 }
 
 async function getProfile(req, res) {
-  const userInfo = await User.findById(req.user.id);
+  const userInfo = await User.findById(req.user._id);
   successHandler(res, 200, userInfo);
 }
 
 async function updateProfile(req, res, next) {
-  const { avator, name, gender } = req.body;
+  const { avatar, name, gender } = req.body;
 
   if (name && !validator.isLength(name, { min: 2 })) return appError(400, '暱稱需大於2字元', next);
 
@@ -47,19 +47,19 @@ async function updateProfile(req, res, next) {
   }
 
   // 沒有頭像就直接上傳了，避免向S3要資料耗時間
-  if (!avator) {
-    const user = await User.findByIdAndUpdate(req.user.id, {
+  if (!avatar) {
+    const user = await User.findByIdAndUpdate(req.user._id, {
       name,
       gender,
     }, { new: true });
     return successHandler(res, 200, user);
   }
 
-  const isImageInS3 = await getFileInfo(avator);
+  const isImageInS3 = await getFileInfo(avatar);
   if (!isImageInS3) return appError(400, '圖片上傳錯誤', next);
 
-  const user = await User.findByIdAndUpdate(req.user.id, {
-    avator,
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    avatar,
     name,
     gender,
   }, { new: true });

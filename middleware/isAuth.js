@@ -15,7 +15,7 @@ async function isAuth(req, res, next) {
 
   return verifyJWT(token)
     .then((data) => {
-      req.user = { id: data.id };
+      req.user = { _id: data.id };
       next();
     })
     .catch(() => {

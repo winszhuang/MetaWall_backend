@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: [true, '請輸入'],
   },
-  avator: {
+  avatar: {
     type: String,
   },
   createdAt: {
