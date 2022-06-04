@@ -1,18 +1,17 @@
 const router = require('../utils/routerWrapper')();
 const isAuth = require('../middleware/isAuth');
+const PostController = require('../controller/post');
+const LikeController = require('../controller/like');
 
-const {
-  getManyPost,
-  addPost,
-  editPost,
-  deletePost,
-  deleteManyPost,
-} = require('../controller/post');
+router.get('/', isAuth, PostController.getManyPost);
+router.get('/:id', isAuth, PostController.getPostById);
+router.post('/', isAuth, PostController.addPost);
+router.patch('/:id', isAuth, PostController.editPost);
+router.delete('/:id', isAuth, PostController.deletePost);
+router.delete('/', isAuth, PostController.deleteManyPost);
 
-router.get('/', isAuth, getManyPost);
-router.post('/', isAuth, addPost);
-router.patch('/:id', isAuth, editPost);
-router.delete('/:id', isAuth, deletePost);
-router.delete('/', isAuth, deleteManyPost);
+router.post('/:id/like', isAuth, LikeController.like);
+router.post('/:id/unlike', isAuth, LikeController.unLike);
+router.post('/:id/likes', isAuth, LikeController.getLikePost);
 
 module.exports = router.instance;
