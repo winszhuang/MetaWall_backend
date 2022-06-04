@@ -9,7 +9,7 @@ const { getFileInfo } = require('../store/s3');
 async function getManyUser(req, res) {
   const users = await User.find();
 
-  successHandler(res, 200, users);
+  successHandler(res, '取得所有使用者成功', users);
 }
 
 async function updatePassword(req, res, next) {
@@ -29,12 +29,12 @@ async function updatePassword(req, res, next) {
     password: newPassword,
   });
 
-  return successHandler(res, 200, result);
+  return successHandler(res, '更新密碼成功', result);
 }
 
 async function getProfile(req, res) {
   const userInfo = await User.findById(req.user._id);
-  successHandler(res, 200, userInfo);
+  successHandler(res, '取得使用者資訊成功', userInfo);
 }
 
 async function updateProfile(req, res, next) {
@@ -52,7 +52,7 @@ async function updateProfile(req, res, next) {
       name,
       gender,
     }, { new: true });
-    return successHandler(res, 200, user);
+    return successHandler(res, '更新使用者資訊成功', user);
   }
 
   const isImageInS3 = await getFileInfo(avatar);
@@ -64,7 +64,7 @@ async function updateProfile(req, res, next) {
     gender,
   }, { new: true });
 
-  return successHandler(res, 200, user);
+  return successHandler(res, '更新使用者資訊成功', user);
 }
 
 module.exports = {

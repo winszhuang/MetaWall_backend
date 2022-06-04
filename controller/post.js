@@ -38,7 +38,7 @@ async function getManyPost(req, res) {
     .skip(skip)
     .limit(limit);
 
-  successHandler(res, 200, posts);
+  successHandler(res, '取得貼文成功', posts);
 }
 
 async function getPostById(req, res, next) {
@@ -47,7 +47,7 @@ async function getPostById(req, res, next) {
   const post = await Post.findById(id);
   if (!post) return appError(404, 'invalid id', next);
 
-  return successHandler(res, 200, post);
+  return successHandler(res, '取得貼文成功', post);
 }
 
 async function addPost(req, res, next) {
@@ -62,7 +62,7 @@ async function addPost(req, res, next) {
       user: req.user._id,
     });
 
-    return successHandler(res, 200, result);
+    return successHandler(res, '新增貼文成功', result);
   }
 
   // 如果沒有該imageId，就直接在這裡出錯，並被handleErrorAsync接住
@@ -74,7 +74,7 @@ async function addPost(req, res, next) {
     image,
     user: req.user._id,
   });
-  return successHandler(res, 200, result);
+  return successHandler(res, '新增貼文成功', result);
 }
 
 async function editPost(req, res, next) {
@@ -88,7 +88,7 @@ async function editPost(req, res, next) {
     }, { new: true });
 
     return updatePost
-      ? successHandler(res, 200, updatePost)
+      ? successHandler(res, '編輯貼文成功', updatePost)
       : appError(400, 'invalid id', next);
   }
 
@@ -102,7 +102,7 @@ async function editPost(req, res, next) {
   }, { new: true });
 
   return updatePost
-    ? successHandler(res, 200, updatePost)
+    ? successHandler(res, '編輯貼文成功', updatePost)
     : appError(400, 'invalid id', next);
 }
 
@@ -110,14 +110,14 @@ async function deletePost(req, res, next) {
   const oldPost = await Post.findByIdAndDelete(req.params.id);
 
   return oldPost
-    ? successHandler(res, 200, oldPost)
+    ? successHandler(res, '刪除貼文成功', oldPost)
     : appError(400, 'invalid id', next);
 }
 
 // 刪除所有貼文(測試用)
 async function deleteManyPost(req, res) {
   const result = await Post.deleteMany();
-  return successHandler(res, 200, result);
+  return successHandler(res, '刪除貼文成功', result);
 }
 
 module.exports = {

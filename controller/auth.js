@@ -28,7 +28,7 @@ async function signUp(req, res, next) {
     gender: 1,
   });
 
-  return successHandler(res, 200, true);
+  return successHandler(res, '註冊成功', true);
 }
 
 async function signIn(req, res, next) {
@@ -45,7 +45,7 @@ async function signIn(req, res, next) {
   currentUser.password = '';
   const token = generateJWT(currentUser);
 
-  return successHandler(res, 200, {
+  return successHandler(res, '登入成功', {
     token,
     name: currentUser.name,
   });

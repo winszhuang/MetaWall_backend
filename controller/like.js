@@ -20,7 +20,7 @@ async function getLikePost(req, res) {
     .skip(skip)
     .limit(limit);
 
-  successHandler(res, 200, posts);
+  successHandler(res, '成功取得按讚的貼文!!', posts);
 }
 
 async function like(req, res, next) {

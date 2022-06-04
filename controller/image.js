@@ -40,7 +40,7 @@ async function postImage(req, res, next) {
   }
 
   const result = await uploadFile(req.file);
-  return successHandler(res, 200, {
+  return successHandler(res, '上傳圖片成功', {
     imageUrl: `/images/${result.Key}`,
   });
 }
