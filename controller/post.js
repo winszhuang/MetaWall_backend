@@ -3,40 +3,50 @@ const successHandler = require('../utils/successHandler');
 const checkValueCanSort = require('../utils/checkSort');
 const appError = require('../utils/appError');
 const { getFileInfo } = require('../store/s3');
+const parsePaginationInfo = require('../services/pagination/parsePaginationInfo');
+
+/** 預設排序方式 */
+const DEFAULT_SORT = 'desc';
 
 async function getManyPost(req, res) {
-  // 除了q傳遞搜尋字串之外，其他值皆屬排序，皆只能傳遞1或者-1來遞升或遞減
-  const { q, likesSort, dateSort } = req.query;
+  const {
+    q,
+    likes,
+    comments,
+    createdAt = DEFAULT_SORT,
+  } = req.query;
 
-  const filterByQuery = {};
+  const { skip, limit } = parsePaginationInfo(req);
+
+  const filterByQuery = q ? { content: new RegExp(`${q}`, 'i') } : {};
   const filterBySort = {};
 
-  if (q) {
-    const regex = new RegExp(`${q}`, 'i');
-    filterByQuery.content = regex;
-  }
-
-  if (dateSort && checkValueCanSort(dateSort)) {
-    filterBySort.createdAt = dateSort;
-  }
-
-  if (likesSort && checkValueCanSort(likesSort)) {
-    filterBySort.likes = likesSort;
-  }
-
-  // 如果排序相關沒有任何query，就給預設由新到舊排序
-  const defaultFilterOrNot = Object.keys(filterBySort).length === 0
-    ? { createdAt: '-1' }
-    : filterBySort;
+  if (checkValueCanSort(likes)) filterBySort.likes = likes;
+  if (checkValueCanSort(comments)) filterBySort.comments = comments;
+  if (checkValueCanSort(createdAt)) filterBySort.createdAt = createdAt;
 
   const posts = await Post.find(filterByQuery)
-    .sort(defaultFilterOrNot)
     .populate({
       path: 'author',
-      select: 'name avator createdAt',
-    });
+      select: 'name avatar',
+    })
+    .populate({
+      path: 'likes',
+    })
+    .sort(filterBySort)
+    .skip(skip)
+    .limit(limit);
 
   successHandler(res, 200, posts);
+}
+
+async function getPostById(req, res, next) {
+  const { id } = req.params;
+
+  const post = await Post.findById(id);
+  if (!post) return appError(404, 'invalid id', next);
+
+  return successHandler(res, 200, post);
 }
 
 async function addPost(req, res, next) {
@@ -48,8 +58,9 @@ async function addPost(req, res, next) {
   if (!image) {
     const result = await Post.create({
       content,
-      author: req.user.id,
+      author: req.user._id,
     });
+
     return successHandler(res, 200, result);
   }
 
@@ -60,7 +71,7 @@ async function addPost(req, res, next) {
   const result = await Post.create({
     content,
     image,
-    author: req.user.id,
+    author: req.user._id,
   });
   return successHandler(res, 200, result);
 }
@@ -110,6 +121,7 @@ async function deleteManyPost(req, res) {
 
 module.exports = {
   getManyPost,
+  getPostById,
   addPost,
   editPost,
   deletePost,

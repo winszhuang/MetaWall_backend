@@ -1,8 +1,12 @@
-const OrderByEnum = require('../constants/enum/orderByEnum');
-
 function checkValueCanSort(value) {
-  if (value === OrderByEnum.ASC) return true;
-  if (value === OrderByEnum.DESC) return true;
+  if (!value) return false;
+  value = value.toString();
+  if (value === '1') return true;
+  if (value === '-1') return true;
+  if (value === 'asc') return true;
+  if (value === 'desc') return true;
+  if (value === 'ascending') return true;
+  if (value === 'descending') return true;
   return false;
 }
 
