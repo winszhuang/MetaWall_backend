@@ -32,6 +32,7 @@ async function getManyPost(req, res) {
     })
     .populate({
       path: 'likes',
+      select: '_id name avatar',
     })
     .sort(filterBySort)
     .skip(skip)
