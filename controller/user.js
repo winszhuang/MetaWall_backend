@@ -12,6 +12,12 @@ async function getManyUser(req, res) {
   successHandler(res, '取得所有使用者成功', users);
 }
 
+async function deleteAllUser(req, res) {
+  const result = await User.deleteMany();
+
+  successHandler(res, '成功刪除所有使用者', result);
+}
+
 async function updatePassword(req, res, next) {
   const { password, confirmPassword } = req.body;
 
@@ -69,6 +75,7 @@ async function updateProfile(req, res, next) {
 
 module.exports = {
   getManyUser,
+  deleteAllUser,
   updatePassword,
   getProfile,
   updateProfile,
