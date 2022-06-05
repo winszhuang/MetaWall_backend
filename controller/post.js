@@ -31,6 +31,16 @@ async function getManyPost(req, res) {
       select: 'name avatar',
     })
     .populate({
+      path: 'comments',
+      select: 'content image createdAt updatedAt likes user',
+      options: {
+        limit: 2,
+        sort: {
+          likes: -1,
+        },
+      },
+    })
+    .populate({
       path: 'likes',
       select: '_id name avatar',
     })

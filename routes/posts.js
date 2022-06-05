@@ -7,8 +7,8 @@ const CommentController = require('../controller/comment');
 // comment評論
 router.get('/comments', isAuth, CommentController.getAllComment); // 測試用
 router.post('/:postId/comment', isAuth, CommentController.addComment);
-router.patch('/:postId/comment/:commentId', isAuth, CommentController.editComment);
-router.delete('/:postId/comment/:commentId', isAuth, CommentController.deleteComment);
+router.patch('/comment/:commentId', isAuth, CommentController.editComment);
+router.delete('/comment/:commentId', isAuth, CommentController.deleteComment);
 
 // 一般貼文相關
 router.get('/', isAuth, PostController.getManyPost);

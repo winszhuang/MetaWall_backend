@@ -34,15 +34,16 @@ const commentSchema = new mongoose.Schema({
   },
 }, { versionKey: false });
 
-const Comment = mongoose.model('comment', commentSchema);
-
-commentSchema.pre(/^find/, (next) => {
+// eslint-disable-next-line func-names
+commentSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
-    select: 'name id createdAt',
+    select: 'name _id avatar',
   });
 
   next();
 });
+
+const Comment = mongoose.model('comment', commentSchema);
 
 module.exports = Comment;
