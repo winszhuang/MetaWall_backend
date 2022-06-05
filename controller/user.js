@@ -39,7 +39,7 @@ async function updatePassword(req, res, next) {
 }
 
 async function getProfile(req, res) {
-  const userInfo = await User.findById(req.user._id);
+  const userInfo = await User.findById(req.user._id).select('+createdAt +updatedAt');
   successHandler(res, '取得使用者資訊成功', userInfo);
 }
 
@@ -57,6 +57,7 @@ async function updateProfile(req, res, next) {
     const user = await User.findByIdAndUpdate(req.user._id, {
       name,
       gender,
+      updatedAt: Date.now(),
     }, { new: true });
     return successHandler(res, '更新使用者資訊成功', user);
   }
@@ -68,6 +69,7 @@ async function updateProfile(req, res, next) {
     avatar,
     name,
     gender,
+    updatedAt: Date.now(),
   }, { new: true });
 
   return successHandler(res, '更新使用者資訊成功', user);
