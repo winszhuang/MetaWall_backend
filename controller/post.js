@@ -2,6 +2,7 @@ const Post = require('../models/post');
 const successHandler = require('../utils/successHandler');
 const checkValueCanSort = require('../utils/checkSort');
 const appError = require('../utils/appError');
+const pickVerified = require('../utils/pick');
 const { getFileInfo } = require('../store/s3');
 const parsePaginationInfo = require('../services/pagination/parsePaginationInfo');
 
@@ -9,21 +10,13 @@ const parsePaginationInfo = require('../services/pagination/parsePaginationInfo'
 const DEFAULT_SORT = 'desc';
 
 async function getManyPost(req, res) {
-  const {
-    q,
-    likes,
-    comments,
-    createdAt = DEFAULT_SORT,
-  } = req.query;
+  const { q } = req.query;
+  req.query.createdAt ??= DEFAULT_SORT;
 
   const { skip, limit } = parsePaginationInfo(req);
 
   const filterByQuery = q ? { content: new RegExp(`${q}`, 'i') } : {};
-  const filterBySort = {};
-
-  if (checkValueCanSort(likes)) filterBySort.likes = likes;
-  if (checkValueCanSort(comments)) filterBySort.comments = comments;
-  if (checkValueCanSort(createdAt)) filterBySort.createdAt = createdAt;
+  const filterBySort = pickVerified(req.query, ['likes', 'comments', 'createdAt'], checkValueCanSort);
 
   const posts = await Post.find(filterByQuery)
     .populate({
