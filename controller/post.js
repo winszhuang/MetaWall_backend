@@ -3,8 +3,9 @@ const successHandler = require('../utils/successHandler');
 const checkValueCanSort = require('../utils/checkSort');
 const appError = require('../utils/appError');
 const pickVerified = require('../utils/pick');
-const { getFileInfo } = require('../store/s3');
 const parsePaginationInfo = require('../services/pagination/parsePaginationInfo');
+const { getFileInfo } = require('../store/s3');
+const { postFind } = require('../services/db/post');
 
 /** 預設排序方式 */
 const DEFAULT_SORT = 'desc';
@@ -18,25 +19,7 @@ async function getManyPost(req, res) {
   const filterByQuery = q ? { content: new RegExp(`${q}`, 'i') } : {};
   const filterBySort = pickVerified(req.query, ['likes', 'comments', 'createdAt'], checkValueCanSort);
 
-  const posts = await Post.find(filterByQuery)
-    .populate({
-      path: 'user',
-      select: 'name avatar',
-    })
-    .populate({
-      path: 'comments',
-      select: 'content image createdAt updatedAt likes user',
-      options: {
-        limit: 2,
-        sort: {
-          likes: -1,
-        },
-      },
-    })
-    .populate({
-      path: 'likes',
-      select: '_id name avatar',
-    })
+  const posts = await postFind(filterByQuery)
     .sort(filterBySort)
     .skip(skip)
     .limit(limit);
