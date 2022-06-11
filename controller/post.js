@@ -1,28 +1,10 @@
-const Post = require('../models/post');
 const successHandler = require('../utils/successHandler');
-const checkValueCanSort = require('../utils/checkSort');
 const appError = require('../utils/appError');
-const pickVerified = require('../utils/pick');
-const parsePaginationInfo = require('../services/pagination/parsePaginationInfo');
 const { getFileInfo } = require('../store/s3');
-const { postFind } = require('../services/db/post');
-
-/** 預設排序方式 */
-const DEFAULT_SORT = 'desc';
+const { PostService, UserService } = require('../services/db-access');
 
 async function getManyPost(req, res) {
-  const { q } = req.query;
-  req.query.createdAt ??= DEFAULT_SORT;
-
-  const { skip, limit } = parsePaginationInfo(req);
-
-  const filterByQuery = q ? { content: new RegExp(`${q}`, 'i') } : {};
-  const filterBySort = pickVerified(req.query, ['likes', 'comments', 'createdAt'], checkValueCanSort);
-
-  const posts = await postFind(filterByQuery)
-    .sort(filterBySort)
-    .skip(skip)
-    .limit(limit);
+  const posts = await PostService.findByReq(req);
 
   successHandler(res, '取得貼文成功', posts);
 }
@@ -30,10 +12,34 @@ async function getManyPost(req, res) {
 async function getPostById(req, res, next) {
   const { id } = req.params;
 
-  const post = await Post.findById(id);
+  const post = await PostService.getById(id);
   if (!post) return appError(404, 'invalid id', next);
 
   return successHandler(res, '取得貼文成功', post);
+}
+
+async function getUserPosts(req, res, next) {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return appError(400, '無此使用者', next);
+  }
+
+  if (userId === 'me') {
+    const posts = await PostService.getByUserId(req.user._id);
+    return successHandler(res, '取得貼文成功', posts);
+  }
+
+  const currentUser = await UserService.getById(userId);
+  if (!currentUser) {
+    return appError(400, '無此使用者', next);
+  }
+
+  const posts = await PostService.find({ user: userId });
+  if (!posts.length) {
+    return appError(400, '無貼文串', next);
+  }
+  return successHandler(res, '取得貼文成功', posts);
 }
 
 async function addPost(req, res, next) {
@@ -43,7 +49,7 @@ async function addPost(req, res, next) {
   if (!content) return appError('400', 'require content', next);
 
   if (!image) {
-    const result = await Post.create({
+    const result = await PostService.create({
       content,
       user: req.user._id,
     });
@@ -55,7 +61,7 @@ async function addPost(req, res, next) {
   // 不需要再此處判斷是否有值
   await getFileInfo(image);
 
-  const result = await Post.create({
+  const result = await PostService.create({
     content,
     image,
     user: req.user._id,
@@ -69,9 +75,7 @@ async function editPost(req, res, next) {
   if (!content) return appError(400, 'content required', next);
 
   if (!image) {
-    const updatePost = await Post.findByIdAndUpdate(req.params.id, {
-      content,
-    }, { new: true });
+    const updatePost = await PostService.findByIdAndUpdate(req.params.id, { content });
 
     return updatePost
       ? successHandler(res, '編輯貼文成功', updatePost)
@@ -82,10 +86,7 @@ async function editPost(req, res, next) {
   // 不需要再此處判斷是否有值
   await getFileInfo(image);
 
-  const updatePost = await Post.findByIdAndUpdate(req.params.id, {
-    content,
-    image,
-  }, { new: true });
+  const updatePost = await PostService.findByIdAndUpdate(req.params.id, { content, image });
 
   return updatePost
     ? successHandler(res, '編輯貼文成功', updatePost)
@@ -93,7 +94,7 @@ async function editPost(req, res, next) {
 }
 
 async function deletePost(req, res, next) {
-  const oldPost = await Post.findByIdAndDelete(req.params.id);
+  const oldPost = await PostService.findByIdAndDelete(req.params.id);
 
   return oldPost
     ? successHandler(res, '刪除貼文成功', oldPost)
@@ -102,12 +103,13 @@ async function deletePost(req, res, next) {
 
 // 刪除所有貼文(測試用)
 async function deleteManyPost(req, res) {
-  const result = await Post.deleteMany();
+  const result = await PostService.deleteMany();
   return successHandler(res, '刪除貼文成功', result);
 }
 
 module.exports = {
   getManyPost,
+  getUserPosts,
   getPostById,
   addPost,
   editPost,

@@ -13,6 +13,7 @@ router.delete('/comment/:commentId', isAuth, CommentController.deleteComment);
 // 一般貼文相關
 router.get('/', isAuth, PostController.getManyPost);
 router.get('/:id', isAuth, PostController.getPostById);
+router.get('/user/:userId', isAuth, PostController.getUserPosts);
 router.post('/', isAuth, PostController.addPost);
 router.patch('/:id', isAuth, PostController.editPost);
 router.delete('/:id', isAuth, PostController.deletePost);
