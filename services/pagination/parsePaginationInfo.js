@@ -5,10 +5,17 @@ const DEFAULT_PAGE_INDEX = 1;
 
 /**
  * 轉換request中pageIndex和pageSize資訊為mongoose可控制頁數的資料
- * @param {Request} req
+ * @param {Record<string, any>} query
  */
-function parsePaginationInfo(req) {
-  const { pageIndex, pageSize } = req.query;
+function parsePaginationInfo(query) {
+  if (!query) {
+    return {
+      skip: 0,
+      limit: DEFAULT_PAGE_SIZE,
+    };
+  }
+
+  const { pageIndex, pageSize } = query;
 
   const currentPageIndex = parseInt(pageIndex, 10) || DEFAULT_PAGE_INDEX;
   const currentPageSize = parseInt(pageSize, 10) || DEFAULT_PAGE_SIZE;
