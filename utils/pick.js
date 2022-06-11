@@ -20,9 +20,15 @@ function pickVerified(object, keys, validations) {
   return {};
 }
 
+/**
+ *
+ * @param {Record<string, string|number>} object
+ * @param {string[]} keys
+ * @returns {Record<string, string|number>}
+ */
 function pick(object, keys) {
   return keys.reduce((obj, key) => {
-    if (object && Object.prototype.hasOwnProperty.call(obj, key)) {
+    if (object && Object.prototype.hasOwnProperty.call(object, key)) {
       obj[key] = object[key];
     }
     return obj;
@@ -51,4 +57,7 @@ function pickVerifiedWithMultiFunc(object, keys, validations) {
   }, {});
 }
 
-module.exports = pickVerified;
+module.exports = {
+  pick,
+  pickVerified,
+};
