@@ -1,0 +1,944 @@
+{
+	"info": {
+		"_postman_id": "945ee351-117a-455d-bc87-ba76ce50aff1",
+		"name": "express_week8",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13281231"
+	},
+	"item": [
+		{
+			"name": "user使用者",
+			"item": [
+				{
+					"name": "getAllUser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addSingleUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"123\",\r\n    \"email\": \"ijilj\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePassword",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"aaaaaa哭哭喔\",\r\n    \"confirmPassword\": \"aaaaaa哭哭喔\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users/updatePassword",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProfile",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"1111111111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users/profile",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProfile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users/profile",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAllUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "follow追蹤",
+			"item": [
+				{
+					"name": "addFollow追蹤一個人",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users/629cd655f67ca4eb6dcc778d/follow",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users",
+								"629cd655f67ca4eb6dcc778d",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unFollow取消追蹤一個人",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users/629cd655f67ca4eb6dcc778d/unfollow",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users",
+								"629cd655f67ca4eb6dcc778d",
+								"unfollow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getFollowing取得我正在追蹤哪些人的列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users/following",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users",
+								"following"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getFollowers取得哪些人正在追蹤我的列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/users/followers",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"users",
+								"followers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "like按讚",
+			"item": [
+				{
+					"name": "addLike",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/629b2e13e232939a75eb4ad7/like",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"629b2e13e232939a75eb4ad7",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unLike",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/629b2e13e232939a75eb4ad7/unlike",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"629b2e13e232939a75eb4ad7",
+								"unlike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getLikePost",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/likes?pageIndex=1&pageSize=10",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"likes"
+							],
+							"query": [
+								{
+									"key": "pageIndex",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comment留言",
+			"item": [
+				{
+					"name": "addComment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"哈哈哈哈哈\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/629ca17bd95a1f00a119e3b0/comment",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"629ca17bd95a1f00a119e3b0",
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/comment/629cbee62131b230ea586629",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"comment",
+								"629cbee62131b230ea586629"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(測試用)getAllComment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/comments",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editComment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"gooooooooo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/6285245c841073c307407b9d/comment/628cc0a0668d2d3887031219",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"6285245c841073c307407b9d",
+								"comment",
+								"628cc0a0668d2d3887031219"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post貼文",
+			"item": [
+				{
+					"name": "getAllPost",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts?likes=-1&comments=1&createdAt=-1",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts"
+							],
+							"query": [
+								{
+									"key": "likes",
+									"value": "-1",
+									"description": "按讚數排序，可輸入1或者-1"
+								},
+								{
+									"key": "q",
+									"value": "多多",
+									"description": "搜尋字串",
+									"disabled": true
+								},
+								{
+									"key": "comments",
+									"value": "1",
+									"description": "創建日期排序，可輸入1或者-1"
+								},
+								{
+									"key": "pageIndex",
+									"value": "3",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "createdAt",
+									"value": "-1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPostById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/thrthtrhtrh",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"thrthtrhtrh"
+							],
+							"query": [
+								{
+									"key": "likesSort",
+									"value": "-1",
+									"description": "按讚數排序，可輸入1或者-1",
+									"disabled": true
+								},
+								{
+									"key": "q",
+									"value": "多多",
+									"description": "搜尋字串",
+									"disabled": true
+								},
+								{
+									"key": "dateSort",
+									"value": "1",
+									"description": "創建日期排序，可輸入1或者-1",
+									"disabled": true
+								},
+								{
+									"key": "pageIndex",
+									"value": "3",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "5",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserPost",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/user/629c373e9f64091f68d4f274?pageSize=3",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"user",
+								"629c373e9f64091f68d4f274"
+							],
+							"query": [
+								{
+									"key": "likesSort",
+									"value": "-1",
+									"description": "按讚數排序，可輸入1或者-1",
+									"disabled": true
+								},
+								{
+									"key": "q",
+									"value": "多多",
+									"description": "搜尋字串",
+									"disabled": true
+								},
+								{
+									"key": "dateSort",
+									"value": "1",
+									"description": "創建日期排序，可輸入1或者-1",
+									"disabled": true
+								},
+								{
+									"key": "pageIndex",
+									"value": "3",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addSinglePost",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"first\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editPost",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"測試編輯\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/6282058661eed162273d0912",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"6282058661eed162273d0912"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePost",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/6285fca06d63cba7727ba27e",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"6285fca06d63cba7727ba27e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAllPost",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addManyPost",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"繼續測試哦~\",\r\n    \"image\": \"b8be2fb27e934bd5cc7a28da2ecf3851\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/posts/all",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"posts",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Image圖片處理",
+			"item": [
+				{
+					"name": "postImage (use aws s3)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Wins/Pictures/Screenshots/螢幕擷取畫面 (15).png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/images",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getImageById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/images/b8be2fb27e934bd5cc7a28da2ecf3851",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"images",
+								"b8be2fb27e934bd5cc7a28da2ecf3851"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth驗證",
+			"item": [
+				{
+					"name": "signIn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/auth/signin",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signUp註冊",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"test2\",\r\n    \"email\": \"test2@gmail.com\",\r\n    \"password\": \"test1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{給個人作業用baseUrl}}/auth/signup",
+							"host": [
+								"{{給個人作業用baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOWMzNzNlOWY2NDA5MWY2OGQ0ZjI3NCIsImlhdCI6MTY1NTA0ODExNCwiZXhwIjoxNjU1NjUyOTE0fQ.YciDFV3fSm9YPIHHddIjJ_e01_xMXaYIp7NCh_clih0",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
