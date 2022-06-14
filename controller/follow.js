@@ -6,7 +6,13 @@ const { FollowService, UserService } = require('../services/db-access');
  * 取得當前使用者正在追蹤的人的列表
  */
 async function getFollowingList(req, res) {
-  const followingList = await FollowService.getFollowingByUserId(req.user._id);
+  const list = await FollowService.getFollowingByUserId(req.user._id);
+
+  const followingList = list.map((item) => ({
+    ...item.user._doc,
+    createdAt: item.createdAt,
+    followId: item._id,
+  }));
 
   return successHandler(res, '成功', followingList);
 }
@@ -15,7 +21,13 @@ async function getFollowingList(req, res) {
  * 取得哪些人正在追蹤當前使用者
  */
 async function getFollowersList(req, res) {
-  const followersList = await FollowService.getFollowersByUserId(req.user._id);
+  const list = await FollowService.getFollowersByUserId(req.user._id);
+
+  const followersList = list.map((item) => ({
+    ...item.user._doc,
+    createdAt: item.createdAt,
+    followId: item._id,
+  }));
 
   return successHandler(res, '成功', followersList);
 }

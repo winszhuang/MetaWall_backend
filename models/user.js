@@ -35,16 +35,30 @@ const userSchema = new mongoose.Schema({
     default: Date.now,
     select: false,
   },
-  following: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'user',
-    default: [],
-  },
-  followers: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'user',
-    default: [],
-  },
+  following: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
+  followers: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 }, { versionKey: false });
 
 const User = mongoose.model('user', userSchema);

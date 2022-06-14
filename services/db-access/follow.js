@@ -1,10 +1,9 @@
-const mongoose = require('mongoose');
 const User = require('../../models/user');
 
 const getFollowingByUserId = async (userId) => {
   const userInfo = await User.findById(userId)
     .populate({
-      path: 'following',
+      path: 'following.user',
       select: 'name avatar',
     });
 
@@ -14,7 +13,7 @@ const getFollowingByUserId = async (userId) => {
 const getFollowersByUserId = async (userId) => {
   const userInfo = await User.findById(userId)
     .populate({
-      path: 'followers',
+      path: 'followers.user',
       select: 'name avatar',
     });
 
@@ -25,13 +24,15 @@ const follow = async (whoId, beFollowingId) => {
   const result = await User.updateOne(
     {
       _id: whoId,
-      following: {
+      'following.user': {
         $ne: beFollowingId,
       },
     },
     {
       $addToSet: {
-        following: mongoose.Types.ObjectId(beFollowingId),
+        following: {
+          user: beFollowingId,
+        },
       },
     },
   );
@@ -41,13 +42,15 @@ const follow = async (whoId, beFollowingId) => {
   const result2 = await User.updateOne(
     {
       _id: beFollowingId,
-      followers: {
+      'followers.user': {
         $ne: beFollowingId,
       },
     },
     {
       $addToSet: {
-        followers: mongoose.Types.ObjectId(whoId),
+        followers: {
+          user: whoId,
+        },
       },
     },
   );
@@ -60,13 +63,15 @@ const unFollow = async (whoId, unFollowingId) => {
   const result = await User.updateOne(
     {
       _id: whoId,
-      following: {
+      'following.user': {
         $in: unFollowingId,
       },
     },
     {
       $pull: {
-        following: unFollowingId,
+        following: {
+          user: unFollowingId,
+        },
       },
     },
   );
@@ -76,13 +81,15 @@ const unFollow = async (whoId, unFollowingId) => {
   const result2 = await User.updateOne(
     {
       _id: unFollowingId,
-      followers: {
+      'followers.user': {
         $in: whoId,
       },
     },
     {
       $pull: {
-        followers: whoId,
+        followers: {
+          user: whoId,
+        },
       },
     },
   );
