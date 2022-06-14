@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
       },
-      createdAt: {
+      followedAt: {
         type: Date,
         default: Date.now,
       },
@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
       },
-      createdAt: {
+      followedAt: {
         type: Date,
         default: Date.now,
       },

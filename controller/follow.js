@@ -10,7 +10,7 @@ async function getFollowingList(req, res) {
 
   const followingList = list.map((item) => ({
     ...item.user._doc,
-    createdAt: item.createdAt,
+    followedAt: item.followedAt,
     followId: item._id,
   }));
 
@@ -25,7 +25,7 @@ async function getFollowersList(req, res) {
 
   const followersList = list.map((item) => ({
     ...item.user._doc,
-    createdAt: item.createdAt,
+    followedAt: item.followedAt,
     followId: item._id,
   }));
 
