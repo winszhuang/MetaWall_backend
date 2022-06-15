@@ -9,6 +9,7 @@ router.delete('/', UserController.deleteAllUser);
 
 // 給前台使用者用的
 router.get('/profile', isAuth, UserController.getProfile);
+router.get('/:userId/profile', isAuth, UserController.getSpecificProfile);
 router.patch('/profile', isAuth, UserController.updateProfile);
 router.patch('/updatePassword', isAuth, UserController.updatePassword);
 

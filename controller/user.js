@@ -43,6 +43,13 @@ async function getProfile(req, res) {
   successHandler(res, '取得使用者資訊成功', userInfo);
 }
 
+async function getSpecificProfile(req, res) {
+  const { userId } = req.params;
+
+  const userInfo = await User.findById(userId);
+  successHandler(res, '取得特定使用者資訊成功', userInfo);
+}
+
 async function updateProfile(req, res, next) {
   const { avatar, name, gender } = req.body;
 
@@ -80,5 +87,6 @@ module.exports = {
   deleteAllUser,
   updatePassword,
   getProfile,
+  getSpecificProfile,
   updateProfile,
 };
