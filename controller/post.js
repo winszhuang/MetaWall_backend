@@ -36,9 +36,6 @@ async function getUserPosts(req, res, next) {
   }
 
   const posts = await PostService.find({ user: userId });
-  if (!posts.length) {
-    return appError(400, '無貼文串', next);
-  }
   return successHandler(res, '取得貼文成功', posts);
 }
 
